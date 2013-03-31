@@ -3,25 +3,50 @@
 Life of a request in a Zend Framework 2 MVC application
 =======================================================
 
-index.php initializes the MVC application.
+This tutorial is here to help better understand how different components of Zend Framework 2 fit together to build
+an application that uses the Model-View-Controller (MVC) pattern. It will try to explain what happens under the hood
+during a simple HTTP request, from initializing the application to sending the response back to the client. Hopefully
+it will show an overview of and explain the entire MVC system to the reader.
 
-the init method grabs the main service manager configuration from the main
-application.config.php file.
+It assumes some knowledge about the components in Zend Framework 2. If you haven't yet, we would advice to go through
+the :ref:`User Guide <user-guide.overview>` first as it hopefully provides enough information to successfully understand
+this tutorial.
 
-the service manager then gets configured. a couple of default invokables
-and factories are being set.
+Let's dive right in.
 
-the zend\mvc\service\eventmanagerfactory creates an event manager and is set into it
-a shared event manager.
+Initializing the application
+----------------------------
 
-the zend\mvc\service\modulemanagerfactory does a few things while creating the
-zend\modulemanager\modulemanager object
+The application is represented by the ``Zend\Mvc\Application`` class and it is responsible for setting up the
+environment and tying together the different components.
+
+The initialization of a MVC application starts in the ``public/index.php`` file. The application configuration file is 
+grabbed from ``config/application.config.php`` file and passed on to the ``init`` method of the ``Zend\Mvc\Application``
+class.
+
+The ``init`` method will configure the ``Zend\ServiceManager\ServiceManager`` with only the basic services needed to
+help initalize the application.
+
+The first service that is set is the ``Zend\EventManager\SharedEventManager``. It is assumed that the shared event manager
+will be injected into other ``Zend\EventManager\EventManager`` instances and so allow attaching to events exposed
+by different event managers via the shared event manager.
+
+Next a ``Zend\EventManager\EventManager`` is configured and seeded with the shared event manager instance.
+
+The last step of configuring the service manager is setting up the ``Zend\ModuleManager\ModuleManager`` service.
 
 Setting up the module manager
 -----------------------------
 
-modulemanagerfactory
-^^^^^^^^^^^^^^^^^^^^
+Zend Framework 2 uses a new module system that helps the developers to create simple, flexible and reusable modules
+of PHP code, view scripts and/or public assets like CSS and Javascript files. The module manager is responsible for
+loading these modules and through different listeners allows configuring different parts of the application from
+within the modules.
+
+Module Manager Factory
+^^^^^^^^^^^^^^^^^^^^^^
+
+The module manager service is being created by the ``Zend\Mvc\Service\ModuleManagerFactory`` factory.
 
 creates first a zend\modulemanager\servicelistener object that allows the developer
 to configure different things from within the modules (either from module.php or the
