@@ -58,3 +58,36 @@ together - this includes the module configuraiton files and the application conf
 
 Bootstrapping the application
 -----------------------------
+
+once the modules are loaded, the application is bootstrapped.
+
+four listeners are attached to the event manager, route listener, dispatch listener, view manager and send response listener
+
+route listener
+^^^^^^^^^^^^^^
+
+zend\mvc\routelistener is first attached to the event manager during the bootstrap process. this listener will listen to the
+route event and it will try to match a route to the current request.
+
+dispatch listener
+^^^^^^^^^^^^^^^^^
+
+the second listener that is attached is the zend\mvc\dispatchlistener that listens for the dispatch event and will try to
+dispatch the controller fetched from the route that was matched in the route listener.
+
+view manager
+^^^^^^^^^^^^
+
+the view manager is quite a busy one as it prepares the view layer to be ready for use
+
+it first prepares two strategies for errors, the first one for when a route is not found so that a 404 page gets rendered,
+and the second when an exception is thrown somewhere in the application so that an error 500 page gets rendered.
+
+next up is prepared the default rendering strategy that is responsible to render the actual view. the template's name will be
+injected via the injecttemplatelistener.
+
+send response listener
+^^^^^^^^^^^^^^^^^^^^^^
+
+the sendresponselistener listens for the EVENT_FINISH event that will trigger sending the response to the client.
+
