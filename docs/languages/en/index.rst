@@ -22,6 +22,7 @@
    user-guide/forms-and-actions
    user-guide/conclusion
    modules/zendtool.introduction
+   tutorials/request-life-in-mvc-application
    tutorials/quickstart.di
    tutorials/unittesting
    tutorials/tutorial.navigation
@@ -287,6 +288,7 @@
 |LearningZendFramework|
 -----------------------
 
+    * :doc:`tutorials/request-life-in-mvc-application`
     * :doc:`tutorials/quickstart.di`
     * :doc:`tutorials/unittesting`
     * :doc:`tutorials/tutorial.navigation`
