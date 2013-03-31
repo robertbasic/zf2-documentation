@@ -91,3 +91,37 @@ send response listener
 
 the sendresponselistener listens for the EVENT_FINISH event that will trigger sending the response to the client.
 
+
+at the end the bootstrap event is triggered.
+
+
+all this so far was just setting up the application, loading the modules and wiring up the different event listeners.
+
+Running the application
+-----------------------
+
+once the bootstrapping of the application is done, it is time to run it.
+
+routing
+^^^^^^^
+
+first the route event is triggered. it tries to match a route to the current request by using Zend\Mvc\Router\Http\TreeRouteStack
+
+dispatching
+^^^^^^^^^^^
+
+after a successful routing the dispatch event is triggered. during this event, an instance of the controller matched during the
+routing event is grabbed from the service locator and it's dispatch method is called. the dispatch method will in turn call
+the action method requested and collect the action's response.
+
+rendering
+^^^^^^^^^
+
+after the controller and it's action is dispatched and the response known, the render event is triggered. this will in turn
+call Zend\view\view's render method, that will render the apropriate view
+
+sending the response
+^^^^^^^^^^^^^^^^^^^^
+
+once the rendering is done, the finish event is triggered that will in turn call the appropriate response sender. the response
+sender is responsible for sending out the correct headers and sending out the response content to the client.
