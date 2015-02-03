@@ -48,10 +48,13 @@ Module Manager Factory
 
 The module manager service is being created by the ``Zend\Mvc\Service\ModuleManagerFactory`` factory.
 
-creates first a zend\modulemanager\servicelistener object that allows the developer
-to configure different things from within the modules (either from module.php or the
-module.config.php files). These things include, among other, setting router deffinitions,
-configuring the service manager, controller plugins, view helpers, input filters and validators, etc.
+This factory first creates a ``Zend\ModuleManager\Listener\ServiceListener`` that allows the developer to configure
+different parts of the application from within the modules. These configurations can happen either from the module's
+Module object, or from the module's ``module.config.php`` configuration file. Parts of the application that can be
+configured by this, include the service manager itself, the router, controllers and controller plugins,
+view helpers, filters and validators and so on.
+
+The module manager 
 
 different listeners are attached to the event manager:
     - moduleloaderlistener, that sets up module autoloading
